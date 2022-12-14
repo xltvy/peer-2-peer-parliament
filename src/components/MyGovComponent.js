@@ -74,6 +74,30 @@ const MyGovComponent = () => {
       alert('you have already used the faucet');
     }
   };
+  const submitProjectPropsalHandler = async (
+    ipfshash,
+    votedeadline,
+    paymentamounts,
+    payschedule
+  ) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      await contract.submitProjectPropsal(
+        ipfshash,
+        votedeadline,
+        paymentamounts,
+        payschedule
+      );
+    } catch (error) {
+      alert('you have already used the faucet');
+    }
+  };
   return (
     <div>
       <button onClick={loginWithEth}>Login</button>
@@ -87,6 +111,45 @@ const MyGovComponent = () => {
           }
         >
           Use custom faucet
+        </button>
+      </form>
+      <form>
+        <input
+          type='text'
+          id='ipfshash'
+          name='ipfshash'
+          placeholder='ipfshash'
+        />
+        <input
+          type='number'
+          id='votedeadline'
+          name='votedeadline'
+          placeholder='votedeadline'
+        />
+        <input
+          type='number'
+          id='paymentamounts'
+          name='paymentamounts'
+          placeholder='paymentamounts'
+        />
+        <input
+          type='number'
+          id='payschedule'
+          name='payschedule'
+          placeholder='payschedule'
+        />
+        <button
+          onClick={(event) =>
+            event.preventDefault() ||
+            submitProjectPropsalHandler(
+              document.getElementById('ipfshash').value,
+              document.getElementById('votedeadline').value,
+              document.getElementById('paymentamounts').value,
+              document.getElementById('payschedule').value
+            )
+          }
+        >
+          Submit Project Proposal
         </button>
       </form>
     </div>
