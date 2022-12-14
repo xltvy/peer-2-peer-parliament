@@ -5,7 +5,7 @@ import MyGovAbi from './MyGov.json'; // import the smart contract ABI
 const MyGovComponent = () => {
   const [myGovInstance, setMyGovInstance] = useState();
   window.userAddress = null;
-  const contract_address = '0x64597Aee40c77f566b8A953dAA58f733D6F71f52';
+  const contract_address = '0x54c0B35dB02f2E7132c138B0EcC5aFE4b693fEa9';
 
   const showAddress = () => {
     if (!window.userAddress) {
