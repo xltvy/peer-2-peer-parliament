@@ -1,0 +1,972 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokensupply",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "customFaucet",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "subtractedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "decreaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "memberaddr",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "delegateVoteTo",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "donateEther",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "donateMyGovToken",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "faucet",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "reserveProjectGrant",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votedeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "paymentamounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "payschedule",
+				"type": "uint256[]"
+			}
+		],
+		"name": "submitProjectProposal",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "surveydeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "numchoices",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "atmostchoice",
+				"type": "uint256"
+			}
+		],
+		"name": "submitSurvey",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "choices",
+				"type": "uint256[]"
+			}
+		],
+		"name": "takeSurvey",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "choice",
+				"type": "bool"
+			}
+		],
+		"name": "voteForProjectPayment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "choice",
+				"type": "bool"
+			}
+		],
+		"name": "voteForProjectProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawProjectPayment",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getCurrentPaymentVote",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "payment",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getEtherReceivedByProject",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getIsProjectFunded",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "funded",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNoOfFundedProjects",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "numfunded",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNoOfProjectProposals",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "numproposals",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNoOfSurveys",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "numsurveys",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getProjectInfo",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "votedeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "paymentamounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "payschedule",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getProjectNextPayment",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "next",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectid",
+				"type": "uint256"
+			}
+		],
+		"name": "getProjectOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "projectowner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyInfo",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "surveydeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "numchoices",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "atmostchoice",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "surveyowner",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "surveyid",
+				"type": "uint256"
+			}
+		],
+		"name": "getSurveyResults",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "numtaken",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "results",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user_addr",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "survey_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getTakenSurveys",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "isTaken",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "voter",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "project_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getVoteWeight",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "weight",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "projects",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner_addr",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "project_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "vote_yes_count",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "is_funded",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "start",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_votedeadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "end",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfshash",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "payment_terminated",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reserve_payment",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "withdraw_payment",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "received_ether",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "survey_id_idx",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "surveys",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "owner_addr",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "survey_id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "num_choices",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "atmost_choice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "num_taken",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "start",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "survey_deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "end",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfshash",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "user_addr_list",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "users",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "use_faucet",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
