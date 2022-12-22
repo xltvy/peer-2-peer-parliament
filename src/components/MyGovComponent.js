@@ -25,7 +25,13 @@ const MyGovComponent = () => {
 
   const [numberOfPayments, setNumberOfPayments] = React.useState(1);
   const dateNow = dayjs();
-
+  const [surveyInfo, setSurveyInfo] = useState({});
+  const [surveyResult, setSurveyResult] = useState({});
+  const [surveyOwner, setSurveyOwner] = useState('');
+  const [projectIsFunded, setProjectIsFunded] = useState('');
+  const [projectNextPayment, setProjectNextPayment] = useState('');
+  const [projectOwner, setProjectOwner] = useState('');
+  const [projectInfo, setProjectInfo] = useState({});
   const handlePaymentChange = (event) => {
     setNumberOfPayments(event.target.value);
   };
@@ -238,6 +244,190 @@ const MyGovComponent = () => {
     } catch (error) {
       console.log(error);
       alert('error in submit survey');
+    }
+  };
+  const takeSurveyHandler = async (surveyid, choices) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      await contract.takeSurvey(surveyid, choices);
+    } catch (error) {
+      console.log(error);
+      alert('error in take survey');
+    }
+  };
+  const reserveProjectGrantHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      await contract.reserveProjectGrant(projectid);
+    } catch (error) {
+      console.log(error);
+      alert('error in reserve project grant');
+    }
+  };
+  const withdrawProjectPaymentHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      await contract.withdrawProjectPayment(projectid);
+    } catch (error) {
+      console.log(error);
+      alert('error in withdraw project payment');
+    }
+  };
+  const getSurveyResultsHandler = async (surveyid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getSurveyResults(surveyid);
+      setSurveyResult({
+        numtaken: result[0].toNumber(),
+        results: result[1],
+      });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get survey result');
+    }
+  };
+  const getSurveyInfoHandler = async (surveyid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getSurveyInfo(surveyid);
+      setSurveyInfo({
+        ipfshash: result[0],
+        surveydeadline: result[1].toNumber(),
+        numchoices: result[2].toNumber(),
+        atmostchoice: result[3].toNumber(),
+      });
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get survey info');
+    }
+  };
+  const getSurveyOwnerHandler = async (surveyid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getSurveyOwner(surveyid);
+      setSurveyOwner(result);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get survey owner');
+    }
+  };
+  const getIsProjectFundedHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getIsProjectFunded(projectid);
+      setProjectIsFunded(result.toString());
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get is project funded');
+    }
+  };
+
+  const getProjectNextPaymentHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getProjectNextPayment(projectid);
+      setProjectNextPayment(result.toNumber());
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get project next payment');
+    }
+  };
+
+  const getProjectOwnerHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getProjectOwner(projectid);
+      setProjectOwner(result);
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get project owner');
+    }
+  };
+
+  const getProjectInfoHandler = async (projectid) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    //await provider.send("eth_requestAccounts",[]);
+    const signer = provider.getSigner();
+
+    const contract = new ethers.Contract(contract_address, MyGovAbi, signer);
+    // console.log(contract);
+    try {
+      const result = await contract.getProjectInfo(projectid);
+      setProjectInfo({
+        ipfshash: result[0],
+        projectdeadline: result[1].toNumber(),
+        paymentamounts: result[2],
+        payschedule: result[3],
+      });
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+      alert('error in get project info');
     }
   };
 
@@ -503,6 +693,235 @@ const MyGovComponent = () => {
         >
           Submit Survey
         </Button>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='take_surveyid'
+          name='surveyid'
+          placeholder='surveyid'
+        />
+        <TextField
+          type='text'
+          id='take_choices'
+          name='choices'
+          placeholder='choices'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            takeSurveyHandler(
+              document.getElementById('take_surveyid').value,
+              Array.from(
+                document.getElementById('take_choices').value.split(','),
+                Number
+              )
+            )
+          }
+        >
+          Take Survey
+        </Button>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='reserved_projectid'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            reserveProjectGrantHandler(
+              document.getElementById('reserved_projectid').value
+            )
+          }
+        >
+          Reserve Project Grant
+        </Button>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='withdraw_projectid'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            withdrawProjectPaymentHandler(
+              document.getElementById('withdraw_projectid').value
+            )
+          }
+        >
+          Withdraw Project Payment
+        </Button>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_survey_info_id'
+          name='surveyid'
+          placeholder='surveyid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getSurveyInfoHandler(
+              document.getElementById('get_survey_info_id').value
+            )
+          }
+        >
+          Get Survey Info
+        </Button>
+        <ul>
+          <li>ipfshash: {surveyInfo?.ipfshash}</li>
+          <li>surveydeadline: {surveyInfo?.surveydeadline}</li>
+          <li>numchoices: {surveyInfo?.numchoices}</li>
+          <li>atmostchoice: {surveyInfo?.atmostchoice}</li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_survey_result_id'
+          name='surveyid'
+          placeholder='surveyid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getSurveyResultsHandler(
+              document.getElementById('get_survey_result_id').value
+            )
+          }
+        >
+          Get Survey Result
+        </Button>
+        <ul>
+          <li>numtaken: {surveyResult?.numtaken}</li>
+          <li>
+            results:{' '}
+            {surveyResult?.results?.map((result) => (
+              <div>{result.toNumber()}</div>
+            ))}
+          </li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_survey_owner_id'
+          name='surveyid'
+          placeholder='surveyid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getSurveyOwnerHandler(
+              document.getElementById('get_survey_owner_id').value
+            )
+          }
+        >
+          Get Survey Owner
+        </Button>
+        <ul>
+          <li>owner: {surveyOwner}</li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_project_funded_id'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getIsProjectFundedHandler(
+              document.getElementById('get_project_funded_id').value
+            )
+          }
+        >
+          Get Project Funded
+        </Button>
+        <ul>
+          <li>isFunded: {projectIsFunded}</li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_project_next_payment_id'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getProjectNextPaymentHandler(
+              document.getElementById('get_project_next_payment_id').value
+            )
+          }
+        >
+          Get Project Next Payment
+        </Button>
+        <ul>
+          <li>nextPayment: {projectNextPayment}</li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_project_owner_id'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getProjectOwnerHandler(
+              document.getElementById('get_project_owner_id').value
+            )
+          }
+        >
+          Get Project Owner
+        </Button>
+        <ul>
+          <li>owner: {projectOwner}</li>
+        </ul>
+      </form>
+      <form>
+        <TextField
+          type='number'
+          id='get_project_info_id'
+          name='projectid'
+          placeholder='projectid'
+        />
+        <Button
+          onClick={(event) =>
+            event.preventDefault() ||
+            getProjectInfoHandler(
+              document.getElementById('get_project_info_id').value
+            )
+          }
+        >
+          Get Project Info
+        </Button>
+        <ul>
+          <li>ipfshash: {projectInfo?.ipfshash}</li>
+          <li>projectdeadline: {projectInfo?.projectdeadline}</li>
+          <li>
+            paymentamounts:{' '}
+            {projectInfo?.paymentamounts?.map((amount) => amount.toNumber())}
+          </li>
+          <li>
+            payschedule:{' '}
+            {projectInfo?.payschedule?.map((schedule) => schedule.toNumber())}
+          </li>
+        </ul>
       </form>
     </div>
   );
