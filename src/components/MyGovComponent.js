@@ -915,11 +915,15 @@ const MyGovComponent = () => {
           <li>projectdeadline: {projectInfo?.projectdeadline}</li>
           <li>
             paymentamounts:{' '}
-            {projectInfo?.paymentamounts?.map((amount) => amount.toNumber())}
+            {projectInfo?.paymentamounts?.map(
+              (amount) => amount.toNumber() + ' '
+            )}
           </li>
           <li>
             payschedule:{' '}
-            {projectInfo?.payschedule?.map((schedule) => schedule.toNumber())}
+            {projectInfo?.payschedule?.map(
+              (schedule) => schedule.toNumber() + ' '
+            )}
           </li>
         </ul>
       </form>
