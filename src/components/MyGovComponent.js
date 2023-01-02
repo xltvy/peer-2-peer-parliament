@@ -911,7 +911,7 @@ const MyGovComponent = () => {
           Get Project Info
         </Button>
         <ul>
-          <li>ipfshash: {projectInfo?.ipfshash}</li>
+          <li>ipfshash: <a href={projectInfo?.ipfshash}>{projectInfo?.ipfshash}</a> </li>
           <li>projectdeadline: {projectInfo?.projectdeadline}</li>
           <li>
             paymentamounts:{' '}
