@@ -776,7 +776,7 @@ const MyGovComponent = () => {
           Get Survey Info
         </Button>
         <ul>
-          <li>ipfshash: {surveyInfo?.ipfshash}</li>
+          <li>ipfshash: <a href={surveyInfo?.ipfshash}>{surveyInfo?.ipfshash}</a></li>
           <li>surveydeadline: {surveyInfo?.surveydeadline}</li>
           <li>numchoices: {surveyInfo?.numchoices}</li>
           <li>atmostchoice: {surveyInfo?.atmostchoice}</li>
