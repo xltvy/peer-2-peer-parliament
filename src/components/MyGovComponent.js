@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import MyGovAbi from './MyGov.json'; // import the smart contract ABI
+import './mygov.css';
+import logo from './ppp.png';
+import description from './ppp_desc.png';
+
 import {
   Select,
   Button,
@@ -14,16 +18,16 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const MyGovComponent = () => {
-  const [timeValue, setTimeValue] = useState(dayjs('2022-12-18T21:11:54'));
+  const [timeValue, setTimeValue] = useState(null);
   const [surveyTimeValue, setSurveyTimeValue] = useState(
-    dayjs('2022-12-18T21:11:54')
+    null
   );
   const [timeDiff, setTimeDiff] = useState(0);
   const [surveyTimeDiff, setSurveyTimeDiff] = useState(0);
   const [voteChoice, setVoteChoice] = useState();
   const [votePaymentChoice, setVotePaymentChoice] = useState();
 
-  const [numberOfPayments, setNumberOfPayments] = React.useState(1);
+  const [numberOfPayments, setNumberOfPayments] = React.useState();
   const dateNow = dayjs();
   const [surveyInfo, setSurveyInfo] = useState({});
   const [surveyResult, setSurveyResult] = useState({});
@@ -432,501 +436,753 @@ const MyGovComponent = () => {
   };
 
   return (
-    <div>
-      <Button onClick={loginWithEth}>Login</Button>
-      <Button onClick={faucetHandler}>Use faucet</Button>
-      <form>
-        <TextField
-          type='number'
-          id='amount'
-          name='amount'
-          placeholder='amount'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            customFaucetHandler(document.getElementById('amount').value)
-          }
-        >
-          Use custom faucet
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='text'
-          id='ipfshash'
-          name='ipfshash'
-          placeholder='ipfshash'
-        />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            label='Vote Deadline'
-            inputFormat='DD/MM/YYYY'
-            value={timeValue}
-            id='voteDeadline'
-            onChange={handleTimeChange}
-            renderInput={(params) => <TextField {...params} />}
-            minDate={dateNow}
-          />
-        </LocalizationProvider>
-        <FormControl sx={{ width: 220 }}>
-          <InputLabel id='demo-simple-select-label'>
-            Number Of Payments
-          </InputLabel>
+    <div className='main-layout'>
 
-          <Select
-            id='demo-simple-select'
-            value={numberOfPayments}
-            label='Number of payments'
-            onChange={handlePaymentChange}
-          >
-            {Array.from(Array(20).keys()).map((i) => (
-              <MenuItem value={i + 1}>{i + 1}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        {Array.from(Array(numberOfPayments).keys()).map((i) => (
-          <div>
-            <TextField
-              type='number'
-              id={'paymentamounts' + (i + 1)}
-              name='paymentamounts'
-              placeholder={'paymentamounts' + (i + 1)}
-            />
-            <TextField
-              type='number'
-              id={'payschedule' + (i + 1)}
-              name='payschedule'
-              placeholder={'payschedule' + (i + 1)}
-            />
+      <div className='mygov-row'>
+
+        <div className='mygov-column'>
+
+        
+        <img src={logo} className='logo' alt='ppp logo'/>
+
+        <div className='left-part-interactive'>
+
+          <div className='mygov-column'>
+
+            {/* Initials */}
+            <div className='init-container'>
+              <div>
+                <Button className='connect-button' onClick={loginWithEth}>Connect</Button>
+              </div>
+              <div>
+                <Button className='faucet-button' onClick={faucetHandler}>Use Faucet</Button>
+              </div>
+              <div className='field-title-container'>
+                <div className='field-title'>Use custom faucet</div>
+              </div>
+              <div className='custom-faucet-form-container'>
+                <form className='custom-faucet-form'>
+                    <TextField className='form-text-field' type='number' id='amount' name='amount' placeholder='MGOV Amount' InputProps={{ style: { color: "white", borderRadius: "10px" }}} />
+                    <Button className='custom-faucet-button'
+                      onClick={(event) => 
+                        event.preventDefault() || customFaucetHandler(document.getElementById('amount').value)
+                      }>Get Tokens</Button>
+                </form>
+              </div>
+            </div>
+
+            {/* Donate ether */}
+            <div className='small-container'>
+              <div className='donation-desc-container'>
+                <div className='field-title'>Donate a specified amount of Ether to the Peer 2 Peer Parliament</div>
+              </div>
+              <div className='donation-form-container'>
+                <form className='donation-form-layout'>
+                  <TextField
+                    className='donation-text-field'
+                    type='number'
+                    id='donateEther'
+                    name='donateEther'
+                    placeholder='Ether Amount'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  <Button
+                    className='ether-donation-button'
+                    onClick={(event) =>
+                      event.preventDefault() ||
+                      donateEtherHandler(document.getElementById('donateEther').value)
+                    }>
+                    Donate
+                  </Button>
+                </form>
+              </div>
+            </div>
+
+            {/* Donate mygov */}
+            <div className='small-container-2'>
+              <div className='donation-desc-container-2'>
+                <div className='field-title'>Donate a specified amount of MGOV token to the Peer 2 Peer Parliament</div>
+              </div>
+              <div className='donation-form-container'>
+                <form className='donation-form-layout'>
+                  <TextField
+                    className='donation-text-field'
+                    type='number'
+                    id='donateMyGov'
+                    name='donateMyGov'
+                    placeholder='MGOV Amount'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  <Button
+                    className='mgov-donation-button'
+                    onClick={(event) =>
+                      event.preventDefault() ||
+                      donateMyGovHandler(document.getElementById('donateMyGov').value)
+                    }>
+                    Donate
+                  </Button>
+                </form>
+              </div>
+            </div>
+
           </div>
-        ))}
 
-        <Button
-          onClick={(event) => {
-            event.preventDefault();
-            let paymentamounts = [];
-            let payschedule = [];
-            for (let i = 0; i < numberOfPayments; i++) {
-              paymentamounts.push(
-                document.getElementById('paymentamounts' + (i + 1)).value
-              );
-              payschedule.push(
-                document.getElementById('payschedule' + (i + 1)).value
-              );
-            }
-            submitProjectPropsalHandler(
-              document.getElementById('ipfshash').value,
-              timeDiff,
-              paymentamounts,
-              payschedule
-            );
-          }}
-        >
-          Submit Project Proposal
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='donateEther'
-          name='donateEther'
-          placeholder='donateEther'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            donateEtherHandler(document.getElementById('donateEther').value)
-          }
-        >
-          Donate Ether
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='donateMyGov'
-          name='donateMyGov'
-          placeholder='donateMyGov'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            donateMyGovHandler(document.getElementById('donateMyGov').value)
-          }
-        >
-          Donate MyGov
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='projectid_voteproposal'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <FormControl sx={{ width: 220 }}>
-          <InputLabel id='demo-simple-select-label'>Choice</InputLabel>
+          <div className='mygov-column'>
 
-          <Select
-            id='demo-simple-select'
-            value={voteChoice}
-            label='Choice'
-            onChange={handleVoteChange}
-          >
-            <MenuItem value={true}>True</MenuItem>
-            <MenuItem value={false}>False</MenuItem>
-          </Select>
-        </FormControl>
+            {/* Submit project proposal */}
+            <div className='proposal-container'>
+              <div className='field-title-container-proposal'>
+                <div className='field-title'>Submit a project proposal by giving its IPFS hash and providing a voting deadline and a proper payment schedule with necessary payment amounts</div>
+              </div>
+              <div className='proposal-form-container'>
+                <form>
+                  <div className='ipfs-text'>
+                    <TextField className='ipfs-text-field' type='text' id='ipfshash' name='ipfshash' placeholder='IPFS Hash' InputProps={{ style: { color: "white", borderRadius: "10px" }}} />
+                  </div>
+                  <div className='prop-field'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        className='prop-date-picker'
+                        label='Vote Deadline'
+                        inputFormat='DD/MM/YYYY'
+                        value={timeValue}
+                        id='voteDeadline'
+                        onChange={handleTimeChange}
+                        renderInput={(params) => <TextField {...params} sx={{
+                          svg: { color: "#808083" },
+                          input: { color: "white" },
+                          label: { color: "#808083" }
+                        }}/>}
+                        minDate={dateNow}
+                        InputProps={{ style: { color: "white", borderRadius: "10px" }}}
+                      />
+                    </LocalizationProvider>
+                    <FormControl className='pay-select-field' sx={{ svg: { color: "#808083" }, input: { color: "white" }, label: { color: "#808083" } }}>
+                      <InputLabel id='demo-simple-select-label'>
+                        Number of Payments
+                      </InputLabel>
+                      <Select
+                        sx={{ borderRadius: '10px', color: 'white' }}
+                        id='demo-simple-select'
+                        value={numberOfPayments}
+                        label='Number of payments'
+                        onChange={handlePaymentChange}>
+                        {Array.from(Array(20).keys()).map((i) => (
+                          <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
+                  {Array.from(Array(numberOfPayments).keys()).map((i) => (
+                    <div className='prop-field'>
+                      <TextField
+                        className='prop-dynamic-text-field'
+                        type='number'
+                        id={'paymentamounts' + (i + 1)}
+                        name='paymentamounts'
+                        placeholder={'Payment #' + (i + 1)}
+                        InputProps={{ style: { color: "white", borderRadius: "10px" }}}
+                      />
+                      <TextField
+                        className='prop-dynamic-text-field'
+                        type='number'
+                        id={'payschedule' + (i + 1)}
+                        name='payschedule'
+                        placeholder={'Payment Schedule #' + (i + 1)}
+                        InputProps={{ style: { color: "white", borderRadius: "10px" }}}
+                      />
+                    </div>
+                  ))}
+                  <Button
+                    className='submit-proposal-button'
+                    onClick={(event) => {
+                      event.preventDefault();
+                      let paymentamounts = [];
+                      let payschedule = [];
+                      for (let i = 0; i < numberOfPayments; i++) {
+                        paymentamounts.push(
+                          document.getElementById('paymentamounts' + (i + 1)).value
+                        );
+                        payschedule.push(
+                          document.getElementById('payschedule' + (i + 1)).value
+                        );
+                      }
+                      submitProjectPropsalHandler(
+                        document.getElementById('ipfshash').value,
+                        timeDiff,
+                        paymentamounts,
+                        payschedule
+                      );
+                    }}>
+                    Submit
+                  </Button>
+                </form>
+              </div>
+            </div>
 
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            voteForProjectProposalHandler(
-              document.getElementById('projectid_voteproposal').value,
-              voteChoice
-            )
-          }
-        >
-          Vote For Project Proposal
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='projectid_votepayment'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <FormControl sx={{ width: 220 }}>
-          <InputLabel id='demo-simple-select-label'>Choice</InputLabel>
+            {/* Submit survey */}
+            <div className='medium-container'>
+              <div className='submit-survey-desc-container'>
+                <div className='field-title'>Submit a survey. You can submit a survey for a project proposal by providing the project ID and the IPFS hash of the survey, alongside the number of choices and maximum choice amount.</div>
+              </div>
+              <div className='submit-survey-form-container'>
+                <form>
+                  <div className='ipfs-text'>
+                    <TextField className='ipfs-text-field' type='text' id='ipfshash_submitsurvey' name='ipfshash' placeholder='IPFS Hash' InputProps={{ style: { color: "white", borderRadius: "10px" }}} />
+                  </div>
+                  <div className='prop-field'>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                      className='survey-date-picker'
+                      label='Survey Deadline'
+                      inputFormat='DD/MM/YYYY'
+                      value={surveyTimeValue}
+                      id='surveyDeadline'
+                      onChange={handleSurveyTimeChange}
+                      renderInput={(params) => <TextField {...params} sx={{
+                        svg: { color: "#808083" },
+                        input: { color: "white" },
+                        label: { color: "#808083" }
+                      }}/>}
+                      minDate={dateNow}
+                      InputProps={{ style: { color: "white", borderRadius: "10px" }}}
+                    />
+                  </LocalizationProvider>
+                  <TextField
+                    className='survey-choice-field'
+                    type='number'
+                    id='numchoices'
+                    name='numchoices'
+                    placeholder='Choice Amount'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  <TextField
+                    className='survey-choice-field'
+                    type='number'
+                    id='atmostchoice'
+                    name='atmostchoice'
+                    placeholder='Maximum Choice'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  </div>
+                  <Button
+                    className='submit-survey-button'
+                    onClick={(event) =>
+                      event.preventDefault() ||
+                      submitSurveyHandler(
+                        document.getElementById('ipfshash_submitsurvey').value,
+                        surveyTimeDiff,
+                        document.getElementById('numchoices').value,
+                        document.getElementById('atmostchoice').value
+                      )
+                    }
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </div>  
+            </div>
 
-          <Select
-            id='demo-simple-select'
-            value={votePaymentChoice}
-            label='Choice'
-            onChange={handleVotePaymentChange}
-          >
-            <MenuItem value={true}>True</MenuItem>
-            <MenuItem value={false}>False</MenuItem>
-          </Select>
-        </FormControl>
+            {/* Delegate vote */}
+            <div className='medium-container'>
+              <div className='delegate-desc-container'>
+                <div className='field-title'>Delegate your vote to another address. You can delegate your vote to another address for a specific project proposal.</div>
+              </div>
+              <div className='delegate-form-container'>
+                <form className='one-line-form-layout'>
+                  <TextField
+                    className='medium-form-text-field'
+                    type='text'
+                    id='delegateaddress'
+                    name='delegateaddress'
+                    placeholder='Address to Delegate Vote To'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  <TextField
+                    className='medium-form-text-field-2'
+                    type='number'
+                    id='projectid'
+                    name='projectid'
+                    placeholder='Project ID'
+                    InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                  <Button
+                    className='delegate-button'
+                    onClick={(event) =>
+                      event.preventDefault() ||
+                      delegateVoteToHandler(
+                        document.getElementById('delegateaddress').value,
+                        document.getElementById('projectid').value
+                      )
+                    }>
+                    Delegate Vote
+                  </Button>
+                </form>
+              </div>
+            </div>
+            
+          </div>
 
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            voteForProjectPaymentHandler(
-              document.getElementById('projectid_votepayment').value,
-              votePaymentChoice
-            )
-          }
-        >
-          Vote For Project Payment
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='text'
-          id='delegateaddress'
-          name='delegateaddress'
-          placeholder='delegateaddress'
-        />
-        <TextField
-          type='number'
-          id='projectid'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            delegateVoteToHandler(
-              document.getElementById('delegateaddress').value,
-              document.getElementById('projectid').value
-            )
-          }
-        >
-          Delegate Vote To
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='text'
-          id='ipfshash_submitsurvey'
-          name='ipfshash'
-          placeholder='ipfshash'
-        />
+        </div>
 
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            label='Survey Deadline'
-            inputFormat='DD/MM/YYYY'
-            value={surveyTimeValue}
-            id='surveyDeadline'
-            onChange={handleSurveyTimeChange}
-            renderInput={(params) => <TextField {...params} />}
-            minDate={dateNow}
-          />
-        </LocalizationProvider>
-        <TextField
-          type='number'
-          id='numchoices'
-          name='numchoices'
-          placeholder='numchoices'
-        />
-        <TextField
-          type='number'
-          id='atmostchoice'
-          name='atmostchoice'
-          placeholder='atmostchoice'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            submitSurveyHandler(
-              document.getElementById('ipfshash_submitsurvey').value,
-              surveyTimeDiff,
-              document.getElementById('numchoices').value,
-              document.getElementById('atmostchoice').value
-            )
-          }
-        >
-          Submit Survey
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='take_surveyid'
-          name='surveyid'
-          placeholder='surveyid'
-        />
-        <TextField
-          type='text'
-          id='take_choices'
-          name='choices'
-          placeholder='choices'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            takeSurveyHandler(
-              document.getElementById('take_surveyid').value,
-              Array.from(
-                document.getElementById('take_choices').value.split(','),
-                Number
-              )
-            )
-          }
-        >
-          Take Survey
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='reserved_projectid'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            reserveProjectGrantHandler(
-              document.getElementById('reserved_projectid').value
-            )
-          }
-        >
-          Reserve Project Grant
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='withdraw_projectid'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            withdrawProjectPaymentHandler(
-              document.getElementById('withdraw_projectid').value
-            )
-          }
-        >
-          Withdraw Project Payment
-        </Button>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_survey_info_id'
-          name='surveyid'
-          placeholder='surveyid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getSurveyInfoHandler(
-              document.getElementById('get_survey_info_id').value
-            )
-          }
-        >
-          Get Survey Info
-        </Button>
-        <ul>
-          <li>ipfshash: <a href={surveyInfo?.ipfshash}>{surveyInfo?.ipfshash}</a></li>
-          <li>surveydeadline: {surveyInfo?.surveydeadline}</li>
-          <li>numchoices: {surveyInfo?.numchoices}</li>
-          <li>atmostchoice: {surveyInfo?.atmostchoice}</li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_survey_result_id'
-          name='surveyid'
-          placeholder='surveyid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getSurveyResultsHandler(
-              document.getElementById('get_survey_result_id').value
-            )
-          }
-        >
-          Get Survey Result
-        </Button>
-        <ul>
-          <li>numtaken: {surveyResult?.numtaken}</li>
-          <li>
-            results:{' '}
-            {surveyResult?.results?.map((result) => (
-              <div>{result.toNumber()}</div>
-            ))}
-          </li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_survey_owner_id'
-          name='surveyid'
-          placeholder='surveyid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getSurveyOwnerHandler(
-              document.getElementById('get_survey_owner_id').value
-            )
-          }
-        >
-          Get Survey Owner
-        </Button>
-        <ul>
-          <li>owner: {surveyOwner}</li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_project_funded_id'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getIsProjectFundedHandler(
-              document.getElementById('get_project_funded_id').value
-            )
-          }
-        >
-          Get Project Funded
-        </Button>
-        <ul>
-          <li>isFunded: {projectIsFunded}</li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_project_next_payment_id'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getProjectNextPaymentHandler(
-              document.getElementById('get_project_next_payment_id').value
-            )
-          }
-        >
-          Get Project Next Payment
-        </Button>
-        <ul>
-          <li>nextPayment: {projectNextPayment}</li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_project_owner_id'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getProjectOwnerHandler(
-              document.getElementById('get_project_owner_id').value
-            )
-          }
-        >
-          Get Project Owner
-        </Button>
-        <ul>
-          <li>owner: {projectOwner}</li>
-        </ul>
-      </form>
-      <form>
-        <TextField
-          type='number'
-          id='get_project_info_id'
-          name='projectid'
-          placeholder='projectid'
-        />
-        <Button
-          onClick={(event) =>
-            event.preventDefault() ||
-            getProjectInfoHandler(
-              document.getElementById('get_project_info_id').value
-            )
-          }
-        >
-          Get Project Info
-        </Button>
-        <ul>
-          <li>ipfshash: <a href={projectInfo?.ipfshash}>{projectInfo?.ipfshash}</a> </li>
-          <li>projectdeadline: {projectInfo?.projectdeadline}</li>
-          <li>
-            paymentamounts:{' '}
-            {projectInfo?.paymentamounts?.map(
-              (amount) => amount.toNumber() + ' '
-            )}
-          </li>
-          <li>
-            payschedule:{' '}
-            {projectInfo?.payschedule?.map(
-              (schedule) => schedule.toNumber() + ' '
-            )}
-          </li>
-        </ul>
-      </form>
+        </div>
+        
+        <div className='mygov-column'>
+
+          {/* Vote project proposal */}
+          <div className='medium-container'>
+            <div className='vote-proposal-desc-container'>
+              <div className='field-title'>Vote for a project proposal by providing the proposal ID. You can either vote for a project proposal or against.</div>
+            </div>
+            <div className='vote-proposal-form-container'>
+              <form className='one-line-form-layout'>
+                <TextField
+                  className='medium-form-text-field'
+                  type='number'
+                  id='projectid_voteproposal'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <FormControl className='med-select-field' sx={{ svg: { color: "#808083" }, input: { color: "white" }, label: { color: "#808083" } }}>
+                  <InputLabel id='demo-simple-select-label'>Choice</InputLabel>
+                  <Select
+                    sx={{ borderRadius: '10px', color: 'white' }}
+                    id='demo-simple-select'
+                    value={voteChoice}
+                    label='Choice'
+                    onChange={handleVoteChange}
+                  >
+                    <MenuItem value={true}>Vote for proposal</MenuItem>
+                    <MenuItem value={false}>Vote against proposal</MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  className='vote-prop-button'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    voteForProjectProposalHandler(
+                      document.getElementById('projectid_voteproposal').value,
+                      voteChoice
+                    )
+                  }>
+                  Vote for Proposal
+                </Button>
+              </form>
+            </div>
+          </div>
+
+          {/* Vote payment */}
+          <div className='medium-container'>
+            <div className='vote-payment-desc-container'>
+              <div className='field-title'>Vote for a payment by providing the payment ID. You can either vote for a payment or against.</div>
+            </div>
+            <div className='vote-payment-form-container'>
+              <form className='one-line-form-layout'>
+                <TextField
+                  className='medium-form-text-field'
+                  type='number'
+                  id='projectid_votepayment'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <FormControl className='med-select-field' sx={{ svg: { color: "#808083" }, input: { color: "white" }, label: { color: "#808083" } }}>
+                  <InputLabel id='demo-simple-select-label'>Choice</InputLabel>
+                  <Select
+                    sx={{ borderRadius: '10px', color: 'white' }}
+                    id='demo-simple-select'
+                    value={votePaymentChoice}
+                    label='Choice'
+                    onChange={handleVotePaymentChange}
+                  >
+                    <MenuItem value={true}>Vote for payment</MenuItem>
+                    <MenuItem value={false}>Vote against payment</MenuItem>
+                  </Select>
+                </FormControl>
+                <Button
+                  className='vote-payment-button'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    voteForProjectPaymentHandler(
+                      document.getElementById('projectid_votepayment').value,
+                      votePaymentChoice
+                    )
+                  }>
+                  Vote for Payment
+                </Button>
+              </form>
+            </div>
+          </div>
+
+          {/* Take survey */}
+          <div className='medium-container'>
+            <div className='take-survey-desc-container'>
+              <div className='field-title'>Take a survey. You can take a survey by providing the survey ID and the choices you want to select in the form of comma separated indexes.</div>
+            </div>
+            <div className='take-survey-form-container'>
+              <form className='one-line-form-layout'>
+                <TextField
+                  className='medium-form-text-field'
+                  type='number'
+                  id='take_surveyid'
+                  name='surveyid'
+                  placeholder='Survey ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <TextField
+                  className='medium-form-text-field-2'
+                  type='text'
+                  id='take_choices'
+                  name='choices'
+                  placeholder='Choices (comma separated)'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='take-survey-button'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    takeSurveyHandler(
+                      document.getElementById('take_surveyid').value,
+                      Array.from(
+                        document.getElementById('take_choices').value.split(','),
+                        Number
+                      )
+                    )
+                  }>
+                  Take Survey
+                </Button>
+              </form>
+            </div>
+          </div>
+        
+          {/* Reserve payment */}
+          <div className='medium-container'>
+            <div className='reserve-desc-container'>
+              <div className='field-title'>You can reserve a project grant by providing the project ID. You can only reserve a project grant before the payment schedule.</div>
+            </div>
+            <div className='reserve-form-container'>
+              <form className='one-line-form-layout'>
+                <TextField
+                  className='one-line-form-text-field'
+                  type='number'
+                  id='reserved_projectid'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='reserve-button'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    reserveProjectGrantHandler(
+                      document.getElementById('reserved_projectid').value
+                    )
+                  }>
+                  Reserve
+                </Button>
+              </form>
+            </div>
+          </div>
+          
+          {/* Withdraw payment */}
+          <div className='medium-container'>
+            <div className='withdraw-desc-container'>
+              <div className='field-title'>You can withdraw the next project grant by providing the project ID. You can only withdraw a project grant after the payment schedule.</div>
+            </div>
+            <div className='withdraw-form-container'>
+              <form className='one-line-form-layout'>
+                <TextField
+                  className='one-line-form-text-field'
+                  type='number'
+                  id='withdraw_projectid'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='withdraw-button'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    withdrawProjectPaymentHandler(
+                      document.getElementById('withdraw_projectid').value
+                    )
+                  }>
+                  Withdraw
+                </Button>
+              </form>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+      
+      <div className='mygov-row'>
+
+      <div className='getter-column'>
+
+        {/* Get project info */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the information of a project by providing its ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_project_info_id'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-orange'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getProjectInfoHandler(
+                      document.getElementById('get_project_info_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>IPFS Hash: <a href={projectInfo?.ipfshash}>{projectInfo?.ipfshash}</a> </li>
+                  <li className='getter-element' style={{paddingBottom: "2px", paddingTop: "2px"}}>Project Deadline: {projectInfo?.projectdeadline}</li>
+                  <li className='getter-element' style={{paddingBottom: "2px", paddingTop: "2px"}}>
+                    Payment Amounts:{' '}
+                    {projectInfo?.paymentamounts?.map(
+                      (amount) => amount.toNumber() + ' '
+                    )}
+                  </li>
+                  <li className='getter-element' style={{paddingTop: "2px"}}>
+                    Payment Schedule:{' '}
+                    {projectInfo?.payschedule?.map(
+                      (schedule) => schedule.toNumber() + ' '
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* Get project owner */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the owner's address of a project by providing its ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_project_owner_id'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-purple'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getProjectOwnerHandler(
+                      document.getElementById('get_project_owner_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>Owner Address: {projectOwner}</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        {/* Get survey result */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the result of a survey by providing the survey ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_survey_result_id'
+                  name='surveyid'
+                  placeholder='Survey ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-orange'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getSurveyResultsHandler(
+                      document.getElementById('get_survey_result_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>How Many Members Taken the Survey: {surveyResult?.numtaken}</li>
+                  <li className='getter-element' style={{paddingTop: "2px"}}>
+                    Results:{' '}
+                    {surveyResult?.results?.map((result) => (
+                      <div>{result.toNumber()}</div>
+                    ))}
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        {/* Get survey owner */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the owner's address of a survey by providing its ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_survey_owner_id'
+                  name='surveyid'
+                  placeholder='Survey ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-blue'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getSurveyOwnerHandler(
+                      document.getElementById('get_survey_owner_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>Owner Address: {surveyOwner}</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* Get project funded */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can check if project is funded or not by providing its ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_project_funded_id'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-pink'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getIsProjectFundedHandler(
+                      document.getElementById('get_project_funded_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>Project is Funded or Not: {projectIsFunded}</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        {/* Get next payment */}
+        <div className='medium-container'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the next payment of a project by providing its ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_project_next_payment_id'
+                  name='projectid'
+                  placeholder='Project ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-turqoise'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getProjectNextPaymentHandler(
+                      document.getElementById('get_project_next_payment_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>Next Payment: {projectNextPayment}</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        {/* Get survey info */}
+        <div className='medium-container-alt'>
+          <div className='getter-desc-container'>
+            <div className='field-title'>You can get the information of a survey by providing the survey ID.</div>
+          </div>
+          <div className='getter-form-container'>
+            <form className='getter-form-layout'>
+              <div className='request-field'>
+                <TextField
+                  className='getter-form-text-field'
+                  type='number'
+                  id='get_survey_info_id'
+                  name='surveyid'
+                  placeholder='Survey ID'
+                  InputProps={{ style: { color: "white", borderRadius: "10px" }}}/>
+                <Button
+                  className='get-button-purple'
+                  onClick={(event) =>
+                    event.preventDefault() ||
+                    getSurveyInfoHandler(
+                      document.getElementById('get_survey_info_id').value
+                    )
+                  }>
+                  Get
+                </Button>
+              </div>
+              <div className='response-field'>
+                <ul>
+                  <li className='getter-element' style={{paddingBottom: "2px"}}>IPFS Hash: <a href={surveyInfo?.ipfshash}>{surveyInfo?.ipfshash}</a></li>
+                  <li className='getter-element' style={{paddingBottom: "2px", paddingTop: "2px"}}>Survey Deadline: {surveyInfo?.surveydeadline}</li>
+                  <li className='getter-element' style={{paddingBottom: "2px", paddingTop: "2px"}}>Number of Choices: {surveyInfo?.numchoices}</li>
+                  <li className='getter-element' style={{paddingTop: "2px"}}>Maximum Choice Amount: {surveyInfo?.atmostchoice}</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <img src={description} className='description' alt='ppp description'/>
+
+      </div>
+
+      </div>
+
     </div>
   );
 };
