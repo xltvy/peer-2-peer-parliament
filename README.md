@@ -1,3 +1,9 @@
+![ppp](https://user-images.githubusercontent.com/68481602/213939186-fa008aff-1e84-4c2a-b8f9-18b459a5dcac.png)
+
+Access the website of DAO: https://peer-2-peer-parliament.netlify.app
+
+***
+
 # Peer 2 Peer Parliament
 
 Peer 2 Peer Parliament is a decentralized platform for community governance using blockchain technology. It includes a user-friendly interface for our governance token, MYGOV, which is an ERC-20 compliant smart contract on the Ethereum blockchain. The platform also includes a web application for managing the smart contract and its associated functions.
